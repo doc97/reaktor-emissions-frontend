@@ -1,28 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import Result from './components/Result'
+import CountrySelection from './components/CountrySelection'
+import dataService from './services/emissions'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const App = () => {
+  const [country, setCountry] = useState(null)
+  const [countries, setCountries] = useState([])
+  const [perCapita, setPerCapita] = useState(false)
+
+  useEffect(() => {
+    dataService.getData()
+      .then(json => JSON.parse(json))
+      .then(obj => {
+        const countryData = Object.keys(obj).map(key => {
+          return {
+            key,
+            name: obj[key].name
+          }
+        })
+        setCountries(countryData)
+      })
+  }, [])
+
+  return (
+    <div>
+      <h1>CO2-emissions</h1>
+      <CountrySelection
+        setCountry={setCountry}
+        countries={countries} />
+      <Result country={country} perCapita={perCapita} />
+    </div>
+  )
 }
 
-export default App;
+export default App
