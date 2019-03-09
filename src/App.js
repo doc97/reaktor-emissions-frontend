@@ -10,7 +10,6 @@ const App = () => {
 
   useEffect(() => {
     dataService.getData()
-      .then(json => JSON.parse(json))
       .then(obj => {
         const countryData = Object.keys(obj).map(key => {
           return {
