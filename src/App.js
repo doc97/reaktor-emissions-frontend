@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import Result from './components/Result'
-import CountrySelection from './components/CountrySelection'
+import { Grid } from 'semantic-ui-react'
 import dataService from './services/emissions'
+import SearchBar from './components/SearchBar';
+import PerCapitaCheckbox from './components/PerCapitaCheckbox';
+import CountryList from './components/CountryList';
 
 const App = () => {
-  const [country, setCountry] = useState(null)
+  const [search, setSearch] = useState('')
   const [countries, setCountries] = useState([])
   const [perCapita, setPerCapita] = useState(false)
 
@@ -24,14 +26,14 @@ const App = () => {
   const togglePerCapita = () => { setPerCapita(!perCapita) }
 
   return (
-    <div>
-      <h1>CO2-emissions</h1>
-      <CountrySelection
-        setCountry={setCountry}
-        countries={countries} />
-      Per capita <input type='checkbox' onChange={togglePerCapita} />
-      <Result country={country} perCapita={perCapita} />
-    </div>
+    <Grid centered columns={1}>
+      <Grid.Column width={5}>
+        <h1>CO2-emissions</h1>
+        <SearchBar setSearch={setSearch} />
+        <PerCapitaCheckbox togglePerCapita={togglePerCapita} />
+        <CountryList countries={countries} search={search} />
+      </Grid.Column>
+    </Grid>
   )
 }
 
