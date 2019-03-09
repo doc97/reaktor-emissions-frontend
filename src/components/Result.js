@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import dataService from '../services/emissions'
 
-const Result = ({ country }) => {
+const Result = ({ country, perCapita }) => {
   const [data, setData] = useState(null)
 
   useEffect(() => {
@@ -26,10 +26,13 @@ const Result = ({ country }) => {
     const years = Object.keys(data).sort((a, b) => b - a) // descending order
     const elems = years.map(year => {
       const pop = data[year].population
-      const co2 = data[year].emissions
+      let co2 = data[year].emissions
 
       if (pop === null && co2 === null)
         return null
+
+      if (perCapita && co2 !== null)
+        co2 = pop == null ? 'N/A' : (1000 * co2 / pop).toFixed(5)
 
       return (
         <tr key={year}>
@@ -46,7 +49,7 @@ const Result = ({ country }) => {
           <tr>
             <th>Year</th>
             <th>Population</th>
-            <th>Emissions</th>
+            <th>Emissions ({perCapita ? 't/capita' : 'kt'})</th>
           </tr>
         </thead>
         <tbody>

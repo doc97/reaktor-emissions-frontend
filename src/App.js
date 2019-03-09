@@ -21,12 +21,15 @@ const App = () => {
       })
   }, [])
 
+  const togglePerCapita = () => { setPerCapita(!perCapita) }
+
   return (
     <div>
       <h1>CO2-emissions</h1>
       <CountrySelection
         setCountry={setCountry}
         countries={countries} />
+      Per capita <input type='checkbox' onChange={togglePerCapita} />
       <Result country={country} perCapita={perCapita} />
     </div>
   )
