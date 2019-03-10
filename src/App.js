@@ -62,7 +62,12 @@ const App = () => {
   return (
     <div style={backgroundStyle}>
       <Grid centered columns={1}>
-        <Grid.Column style={columnStyle} width={10}>
+        <Grid.Column
+          style={columnStyle}
+          computer={10}
+          largeScreen={12}
+          tablet={14}
+          mobile={16}>
           <Router>
             <div>
               <NavBar
