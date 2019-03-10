@@ -1,5 +1,5 @@
 {
-  "name": "reaktor-weather-frontend",
+  "name": "reaktor-emissions-frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
