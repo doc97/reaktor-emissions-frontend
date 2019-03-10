@@ -14,18 +14,21 @@ const App = () => {
   const [refreshing, setRefreshing] = useState(false)
   const [countries, setCountries] = useState([])
   const [perCapita, setPerCapita] = useState(false)
+  const [sort, setSort] = useState('country code')
+
+  const updateCountryData = (data) => {
+    const countryData = Object.keys(data).map(key => {
+      return {
+        key,
+        name: data[key].name,
+        yearlyData: data[key].yearlyData
+      }
+    })
+    setCountries(countryData)
+  }
 
   useEffect(() => {
-    emissionService.getData()
-      .then(obj => {
-        const countryData = Object.keys(obj).map(key => {
-          return {
-            key,
-            name: obj[key].name
-          }
-        })
-        setCountries(countryData)
-      })
+    emissionService.getData().then(data => { updateCountryData(data) })
   }, [])
 
   const togglePerCapita = () => { setPerCapita(!perCapita) }
@@ -36,15 +39,7 @@ const App = () => {
     setRefreshing(true)
 
     emissionService.issueUpdate()
-    .then(updatedData => {
-      const countryData = Object.keys(updatedData).map(key => {
-        return {
-          key,
-          name: updatedData[key].name
-        }
-      })
-      setCountries(countryData)
-    })
+    .then(updatedData => { updateCountryData(updatedData) })
     .catch(error => console.log(error))
     .then(() => setRefreshing(false))
   }
@@ -77,7 +72,8 @@ const App = () => {
                 <Route exact path='/' render={() =>
                   <Home
                     countries={countries}
-                    togglePerCapita={togglePerCapita} />
+                    sort={sort}
+                    setSort={setSort} />
                 } />
                 <Route exact path='/country/:key' render={({ match }) =>
                   <Country
