@@ -56,7 +56,6 @@ const App = () => {
   }
 
   const backgroundStyle = {
-    height: '100vh',
     background: '#f4f8ff',
   }
 
