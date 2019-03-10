@@ -15,6 +15,7 @@ const App = () => {
   const [countries, setCountries] = useState([])
   const [perCapita, setPerCapita] = useState(false)
   const [sort, setSort] = useState('country code')
+  const [year, setYear] = useState('' + (new Date().getFullYear() - 1))
 
   const updateCountryData = (data) => {
     const countryData = Object.keys(data).map(key => {
@@ -73,7 +74,9 @@ const App = () => {
                   <Home
                     countries={countries}
                     sort={sort}
-                    setSort={setSort} />
+                    setSort={setSort}
+                    year={year}
+                    setYear={setYear} />
                 } />
                 <Route exact path='/country/:key' render={({ match }) =>
                   <Country

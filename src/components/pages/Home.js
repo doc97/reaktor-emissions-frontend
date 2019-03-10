@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { Grid } from 'semantic-ui-react'
 import SearchBar from '../SearchBar';
 import CountryList from '../CountryList';
 import SortSelection from '../SortSelection';
+import YearSelection from '../YearSelection';
 
-const Home = ({ countries, sort, setSort }) => {
+const Home = ({ countries, sort, setSort, year, setYear }) => {
   const [search, setSearch] = useState('')
 
   const sortOptions = [
@@ -41,13 +43,21 @@ const Home = ({ countries, sort, setSort }) => {
     }
   ]
 
+  const lastYear = new Date().getFullYear() - 1
+  const years = [...Array(59).keys()].map(i => lastYear - i).sort((a, b) => b - a)
+  const yearOptions = years.map(y => {
+    return {
+      text: '' + y,
+      value: '' + y
+    }
+  })
+
   const sortedCountries = () => {
     return countries.sort((a, b) => {
-      const latestYear = '2017'
       const hasData = (obj, property) => {
-        return obj.yearlyData[latestYear] !== undefined &&
-          obj.yearlyData[latestYear][property] !== undefined &&
-          obj.yearlyData[latestYear][property] !== null
+        return obj.yearlyData[year] !== undefined &&
+          obj.yearlyData[year][property] !== undefined &&
+          obj.yearlyData[year][property] !== null
       }
       const numericCompare = (a, b, property, desc=true) => {
         if (!hasData(a, property))
@@ -56,8 +66,8 @@ const Home = ({ countries, sort, setSort }) => {
           return -1
 
         if (desc)
-          return b.yearlyData[latestYear][property] - a.yearlyData[latestYear][property]
-        return a.yearlyData[latestYear][property] - b.yearlyData[latestYear][property]
+          return b.yearlyData[year][property] - a.yearlyData[year][property]
+        return a.yearlyData[year][property] - b.yearlyData[year][property]
       }
       const relativeEmissionsCompare = (a, b, desc=true) => {
         if (!hasData(a, 'population') || !hasData(a, 'emissions'))
@@ -65,8 +75,8 @@ const Home = ({ countries, sort, setSort }) => {
         if (!hasData(b, 'population') || !hasData(b, 'emissions'))
           return -1
 
-        const aRelativeEmissions = a.yearlyData[latestYear].emissions / a.yearlyData[latestYear].population
-        const bRelativeEmissions = b.yearlyData[latestYear].emissions / b.yearlyData[latestYear].population
+        const aRelativeEmissions = a.yearlyData[year].emissions / a.yearlyData[year].population
+        const bRelativeEmissions = b.yearlyData[year].emissions / b.yearlyData[year].population
         if (desc)
           return bRelativeEmissions - aRelativeEmissions
         return aRelativeEmissions - bRelativeEmissions
@@ -98,7 +108,19 @@ const Home = ({ countries, sort, setSort }) => {
   return (
     <div>
       <h1>CO2-emissions</h1>
-      <SearchBar setSearch={setSearch} />
+      <Grid stackable columns={2}>
+        <Grid.Row>
+          <Grid.Column computer={10}>
+            <SearchBar setSearch={setSearch} />
+          </Grid.Column>
+          <Grid.Column width={4}>
+            <YearSelection
+              options={yearOptions}
+              year={year}
+              setYear={setYear} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       <SortSelection options={sortOptions} sort={sort} setSort={setSort} />
       <CountryList countries={sortedCountries()} search={search} />
     </div>
