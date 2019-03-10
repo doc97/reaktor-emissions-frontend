@@ -2,15 +2,15 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react';
 
 const SortSelection = ({ options, sort, setSort }) => (
-  <span>
+  <div style={{ marginTop: 10 }}>
     Sort by{' '}
     <Dropdown inline upward={false}
       options={options}
       defaultValue={sort}
       onChange={(event, data) => {
-        setSort(data.text)
+        setSort(data.value)
       }} />
-  </span>
+  </div>
 )
 
 export default SortSelection
