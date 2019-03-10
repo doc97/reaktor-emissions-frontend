@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
+import {
+  BrowserRouter as Router,
+  Route, Switch
+} from 'react-router-dom'
+import Home from './components/pages/Home'
+import Country from './components/pages/Country'
+import NotFound from './components/pages/NotFound'
 import dataService from './services/emissions'
-import SearchBar from './components/SearchBar';
-import PerCapitaCheckbox from './components/PerCapitaCheckbox';
-import CountryList from './components/CountryList';
 
 const App = () => {
-  const [search, setSearch] = useState('')
   const [countries, setCountries] = useState([])
   const [perCapita, setPerCapita] = useState(false)
 
@@ -27,11 +30,24 @@ const App = () => {
 
   return (
     <Grid centered columns={1}>
-      <Grid.Column width={5}>
-        <h1>CO2-emissions</h1>
-        <SearchBar setSearch={setSearch} />
-        <PerCapitaCheckbox togglePerCapita={togglePerCapita} />
-        <CountryList countries={countries} search={search} />
+      <Grid.Column width={10}>
+        <Router>
+          <div>
+            <Switch>
+              <Route exact path='/' render={() =>
+                <Home
+                  countries={countries}
+                  togglePerCapita={togglePerCapita} />
+              } />
+              <Route exact path='/country/:key' render={({ match }) =>
+                <Country
+                  countryKey={match.params.key}
+                  perCapita={perCapita} />
+              }/>
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+        </Router>
       </Grid.Column>
     </Grid>
   )

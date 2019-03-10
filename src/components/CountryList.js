@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { List, Card } from 'semantic-ui-react'
 
 const CountryList = ({ countries, search }) => {
@@ -9,9 +10,11 @@ const CountryList = ({ countries, search }) => {
   })
   const items = filtered.map(country => (
     <List.Item key={country.key}>
-      <Card fluid={true} onClick={(event) => console.log(country.key)}>
-        <Card.Content>{country.name}</Card.Content>
-      </Card>
+      <Link to={`/country/${country.key}`}>
+        <Card fluid>
+          <Card.Content>{country.name}</Card.Content>
+        </Card>
+      </Link>
     </List.Item>
   ))
   return (

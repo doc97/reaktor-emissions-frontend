@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import dataService from '../services/emissions'
+import dataService from '../../services/emissions'
+import NotFound from './NotFound';
 
-const Result = ({ country, perCapita }) => {
-  const [data, setData] = useState(null)
+const Country = ({ countryKey, perCapita }) => {
+  const [data, setData] = useState(undefined)
 
   useEffect(() => {
-    if (!country) {
+    if (!countryKey) {
       setData(null)
     } else {
-      dataService.getCountryData(country.key)
+      dataService.getCountryData(countryKey)
         .then(result => {
           setData(result)
         })
+        .catch(_ => setData(null))
     }
-  }, [ country ])
-
-  const style = {
-    marginTop: 10,
-    padding: 5,
-    border: 'solid',
-    borderWidth: 2
-  }
+  }, [ countryKey ])
 
   const yearlyData = (data) => {
     const years = Object.keys(data).sort((a, b) => b - a) // descending order
@@ -60,12 +55,19 @@ const Result = ({ country, perCapita }) => {
   }
 
   const elem = () => {
-    if (!data)
+    if (data === undefined)
       return null
-    
+    if (data === null)
+      return <NotFound />
+
+    const style = {
+      marginTop: 10,
+      padding: 5,
+    }
+
     return (
       <div style={style}>
-        <h2>Country: {data.name} ({data.key})</h2>
+        <h1>Country: {data.name} ({data.key})</h1>
         <div>{yearlyData(data.yearlyData)}</div>
       </div>
     )
@@ -78,4 +80,4 @@ const Result = ({ country, perCapita }) => {
   )
 }
 
-export default Result
+export default Country
