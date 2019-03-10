@@ -14,4 +14,13 @@ const getYearlyCountryData = (key, year) => {
   return axios.get(`${baseUrl}/${key}/${year}`).then(response => response.data)
 }
 
-export default { getData, getCountryData, getYearlyCountryData }
+const issueUpdate = () => {
+  return axios.post(`${baseUrl}/update`).then(response => response.data)
+}
+
+export default {
+  getData,
+  getCountryData,
+  getYearlyCountryData,
+  issueUpdate
+}
