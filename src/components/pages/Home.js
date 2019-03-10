@@ -7,7 +7,7 @@ const Home = ({ countries }) => {
 
   return (
     <div>
-      <h1>CO2-emissions</h1>
+      <h1 style={{ textAlign: 'center' }}>CO2-emissions</h1>
       <SearchBar setSearch={setSearch} />
       <CountryList countries={countries} search={search} />
     </div>
