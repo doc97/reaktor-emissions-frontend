@@ -42,7 +42,8 @@ const App = () => {
               <Route exact path='/country/:key' render={({ match }) =>
                 <Country
                   countryKey={match.params.key}
-                  perCapita={perCapita} />
+                  perCapita={perCapita}
+                  togglePerCapita={togglePerCapita} />
               }/>
               <Route component={NotFound} />
             </Switch>
