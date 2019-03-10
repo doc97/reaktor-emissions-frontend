@@ -28,5 +28,6 @@
   ],
   "devDependencies": {
     "deep-freeze": "0.0.1"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
