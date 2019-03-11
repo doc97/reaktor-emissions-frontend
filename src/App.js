@@ -46,6 +46,7 @@ const App = () => {
   }
 
   const columnStyle = {
+    minHeight: '100vh',
     padding: 40,
     background: '#dbe8ff',
     boxShadow: '-2px -2px 5px rgba(0, 0, 0, 0.2), 2px 2px 2px rgba(0, 0, 0, 0.2)'
