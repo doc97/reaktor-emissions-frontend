@@ -19,7 +19,7 @@ const NavBar = ({ location, refreshing, handleRefresh}) => {
       <Menu.Item>
         <div>
           <Icon name='exchange' style={iconStyle} />
-          <Link to='/country/compare'>Compare</Link>
+          <Link to='/compare'>Compare</Link>
         </div>
       </Menu.Item>
       <Menu.Item position='right' onClick={handleRefresh}>

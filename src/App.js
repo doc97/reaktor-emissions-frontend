@@ -80,7 +80,7 @@ const App = () => {
                     year={year}
                     setYear={setYear} />
                 } />
-                <Route exact path='/country/compare' render={() =>
+                <Route exact path='/compare' render={() =>
                   <Compare
                     countries={countries}
                     perCapita={perCapita}
