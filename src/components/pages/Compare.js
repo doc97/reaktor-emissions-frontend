@@ -33,11 +33,15 @@ const Compare = ({ countries, perCapita, togglePerCapita }) => {
   }, [ countryA, countryB ])
 
   const setCountryData = (key, setData) => {
-    emissionService.getCountryData(key)
-      .then(result => {
-        setData(result)
-      })
-      .catch(_ => setData(null))
+    if (key === '') {
+      setData(null)
+    } else {
+      emissionService.getCountryData(key)
+        .then(result => {
+          setData(result)
+        })
+        .catch(_ => setData(null))
+    }
   }
 
   const switchCountries = () => {
