@@ -9,6 +9,7 @@ import Country from './components/pages/Country'
 import NotFound from './components/pages/NotFound'
 import NavBar from './components/NavBar'
 import emissionService from './services/emissions'
+import Compare from './components/pages/Compare'
 
 const App = () => {
   const [refreshing, setRefreshing] = useState(false)
@@ -78,6 +79,13 @@ const App = () => {
                     setSort={setSort}
                     year={year}
                     setYear={setYear} />
+                } />
+                <Route exact path='/country/compare' render={() =>
+                  <Compare
+                    countries={countries}
+                    perCapita={perCapita}
+                    togglePerCapita={togglePerCapita}
+                    />
                 } />
                 <Route exact path='/country/:key' render={({ match }) =>
                   <Country
