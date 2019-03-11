@@ -3,7 +3,7 @@ import PerCapitaToggle from '../PerCapitaToggle'
 import CountryData from '../CountryData';
 import CountrySelection from '../CountrySelection';
 import emissionService from '../../services/emissions'
-import { Button, Icon } from 'semantic-ui-react';
+import { Button, Icon, Grid } from 'semantic-ui-react';
 
 const Compare = ({ countries, perCapita, togglePerCapita }) => {
   const [countryA, setCountryA] = useState(null)
@@ -59,23 +59,29 @@ const Compare = ({ countries, perCapita, togglePerCapita }) => {
 
   return (
     <div>
-      <div style={{ marginBottom: 10 }}>
-        <CountrySelection
-          countries={countryOptions}
-          value={toValue(countryA)}
-          setCountry={(event, data) => { setCountryData(data.value, setCountryA)}} />
-        <span style={{ marginLeft: 15, marginRight: 10 }}>
-          <Button color='blue' onClick={() => switchCountries()}>
-            <Button.Content>
-              <Icon name='exchange' />
-            </Button.Content>
-          </Button>
-        </span>
-        <CountrySelection
-          countries={countryOptions}
-          value={toValue(countryB)}
-          setCountry={(event, data) => { setCountryData(data.value, setCountryB)}} />
-      </div>
+      <Grid stackable padded>
+        <Grid.Row columns={3} textAlign='center'>
+          <Grid.Column width={6}>
+            <CountrySelection
+              countries={countryOptions}
+              value={toValue(countryA)}
+              setCountry={(event, data) => { setCountryData(data.value, setCountryA)}} />
+          </Grid.Column>
+          <Grid.Column floated='left' width={4}>
+            <Button color='blue' onClick={() => switchCountries()}>
+              <Button.Content>
+                <Icon name='exchange' />
+              </Button.Content>
+            </Button>
+          </Grid.Column>
+          <Grid.Column width={6}>
+            <CountrySelection
+              countries={countryOptions}
+              value={toValue(countryB)}
+              setCountry={(event, data) => { setCountryData(data.value, setCountryB)}} />
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
       <PerCapitaToggle togglePerCapita={togglePerCapita} />
       { combined &&
         <CountryData data={combined} perCapita={perCapita} />
