@@ -11,7 +11,10 @@ const CountryData = ({ data, perCapita }) => {
       return null
 
     if (perCapita && co2 !== null)
-      co2 = pop == null ? 'N/A' : (1000 * co2 / pop).toFixed(5)
+      co2 = pop == null ? null : (1000 * co2 / pop)
+
+    if (co2 !== null)
+      co2 = Number(co2).toFixed(5)
 
     return (
       <Table.Row key={year}>
